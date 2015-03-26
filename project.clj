@@ -7,4 +7,4 @@
                  [redis-async "0.1.0-SNAPSHOT"]
                  [com.taoensso/carmine "2.9.0"]
                  [criterium "0.4.3"]]
-  :jvm-ops ^:replace [])
+  :jvm-opts ^:replace [])
