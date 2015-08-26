@@ -1,4 +1,4 @@
-(ns redis-test.core
+(ns redis-test.one
   (:require [clojure.core.async :as a]
             [redis-async.core :as redis-async]
             [redis-async.client :as client]
