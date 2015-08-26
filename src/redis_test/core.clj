@@ -3,17 +3,17 @@
             [redis-async.client :as client]
             [taoensso.carmine :as car]))
 
-(def ^:private cmds 1024)
+(def ^:private cmds 1000)
 
 (defn test-redis-async [p]
-  (let [cs (mapv (fn [_] (client/ping p)) (range cmds))]
-    (mapv #(client/<!! %) cs)))
+  (let [last-c (last (repeatedly cmds #(client/ping p)))]
+    (client/<!! last-c)))
 
 (defmacro wcar* [& body] `(car/wcar {:pool {} :spec {}} ~@body))
 
 (defn test-carmine-pipe []
-  (wcar* (dotimes [_ cmds]
-           (car/ping))))
+  (last (wcar* (dotimes [i cmds]
+                 (car/ping)))))
 
 (defn test-carmine []
-  (mapv (fn [_] (car/wcar {:pool {} :spec {}} (car/ping))) (range cmds)))
+  (last (map (fn [_] (car/wcar {:pool {} :spec {}} (car/ping))) (range cmds))))
